@@ -6,12 +6,12 @@ Decode, structural edit (replace, insert, delete) and encode the [INI file] form
 
 Humans care about comments and blank lines and are confused when comments disappear or lines change place for no reason.
 
-Roundtripini is useful when you need to do round trip editing and
+Module `roundtripini` is useful when you need to do round trip editing and
 
 * the diff is meant to be presented to a human for review.
 * the output is meant to be read or written again by a human.
 
-At the same time, roundtripini also acts as a formatter / pretty-printer, introducing uniformity. Like gofmt, the formatting is not tunable.
+At the same time, `roundtripini` acts also as a formatter / pretty-printer, introducing uniformity. Like gofmt, the formatting is not tunable.
 
 ## Status
 
@@ -25,27 +25,27 @@ The [INI file] is an informal format and reaching conformity or completeness is 
 
 The idea is to have two packages:
 
-* Package **roundtripini** performs **high-level** decoding, editing and encoding of the INI format, preserving comments and blank lines.
-* Package **ast** performs **low-level** decoding, editing and encoding of the INI format, preserving comments and blank lines.
+* Package `roundtripini` performs **high-level** decoding, editing and encoding of the INI format, preserving comments and blank lines.
+* Package `ast` performs **low-level** decoding, editing and encoding of the INI format, preserving comments and blank lines.
 
-One would normally use package roundtripini, reserving package ast to special cases, but currently only package ast is implemented.
+One would normally use package `roundtripini`, reserving package `ast` to special cases, but currently only package `ast` is implemented.
 
 * See the examples in ast/example_test.go.
 * See the tests.
-* See the [godoc-ast] API documentation for package ast, which has also the runnable examples.
+* See the [godoc-ast] API documentation for package `ast`, which has also the runnable examples.
 
 ## Formatting
 
 * Spurious leading newlines are removed.
 * A trailing newline is added if missing.
-* Section names are written as `[s1]` (no spaces between parenthesis).
+* Leading and trailing whitespace is removed from section names: `[ hello ]` becomes `[hello]`.
 * Properties are written as `foo = 42` (one space around the equal sign).
 
 See `TestRoundTripCornerCases` and `TestRoundTripPrettyPrint` for details.
 
 ## Comments and blank lines
 
-Comments and blank lines are preserved.
+Comments and blank lines are preserved as follows.
 
 * A comment is just above a section title or above a property. A comment can be multi-line.
 * Blank lines are just below a section title or below a property.
@@ -73,4 +73,3 @@ This code is released under the MIT license, see file [LICENSE](LICENSE).
 [INI file]: https://en.wikipedia.org/wiki/INI_file
 [talk, then code]: https://dave.cheney.net/2019/02/18/talk-then-code
 [minimalism]: https://www.britannica.com/art/Minimalism
-

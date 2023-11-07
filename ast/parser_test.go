@@ -9,8 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/marco-m/roundtripini/ast"
 	"gotest.tools/v3/assert"
+
+	"github.com/marco-m/roundtripini/ast"
 )
 
 func TestGrammarIsWellFormed(t *testing.T) {
@@ -25,8 +26,7 @@ func parse(t *testing.T, input string) *ast.AST {
 
 	parser := ast.NewParser()
 
-	tree := &ast.AST{}
-	err := parser.ParseString("", input, tree)
+	tree, err := parser.ParseString("", input)
 	assert.NilError(t, err)
 
 	return tree

@@ -28,13 +28,12 @@ func Example_add_properties() {
 func exampleAddProperties() error {
 	parser := ast.NewParser()
 
-	tree := &ast.AST{}
 	input := `
 a = 1
 [s1]
 b = 2`
 
-	err := parser.ParseString("", input, tree)
+	tree, err := parser.ParseString("", input)
 	if err != nil {
 		return err
 	}
@@ -70,14 +69,13 @@ func Example_add_comments() {
 func exampleAddComments() error {
 	parser := ast.NewParser()
 
-	tree := &ast.AST{}
 	input := `
 # comment for a
 a = 1
 [s1]
 b = 2`
 
-	err := parser.ParseString("", input, tree)
+	tree, err := parser.ParseString("", input)
 	if err != nil {
 		return err
 	}
@@ -109,7 +107,6 @@ func Example_remove_section() {
 func exampleRemoveSection() error {
 	parser := ast.NewParser()
 
-	tree := &ast.AST{}
 	input := `
 # comment for a
 a = 1
@@ -117,7 +114,7 @@ a = 1
 b = 2
 [s2]`
 
-	err := parser.ParseString("", input, tree)
+	tree, err := parser.ParseString("", input)
 	if err != nil {
 		return err
 	}

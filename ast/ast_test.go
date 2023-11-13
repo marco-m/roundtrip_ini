@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"gotest.tools/v3/assert"
+	"github.com/go-quicktest/qt"
 
 	"github.com/marco-m/roundtrip_ini/ast"
 )
@@ -17,37 +17,7 @@ import (
 func TestGrammarIsWellFormed(t *testing.T) {
 	parser := ast.NewParser()
 
-	assert.Assert(t, parser != nil)
-}
-
-// Parse input and return the AST.
-func parse(t *testing.T, input string) *ast.AST {
-	t.Helper()
-
-	parser := ast.NewParser()
-
-	tree, err := parser.ParseString("", input)
-	assert.NilError(t, err)
-
-	return tree
-}
-
-// Assert that prop has key k and value v, where v is a string.
-func checkKeyString(t *testing.T, prop *ast.Property, k string, v string) {
-	t.Helper()
-	assert.Equal(t, prop.Key, k)
-	value, ok := prop.Value.(ast.String)
-	assert.Assert(t, ok)
-	assert.Equal(t, value.S, v)
-}
-
-// Assert that prop has key k and value v, where v is a float64.
-func checkKeyFloat(t *testing.T, prop *ast.Property, k string, v float64) {
-	t.Helper()
-	assert.Equal(t, prop.Key, k)
-	value, ok := prop.Value.(ast.Number)
-	assert.Assert(t, ok)
-	assert.Equal(t, value.N, v)
+	qt.Assert(t, qt.IsNotNil(parser))
 }
 
 func TestParseKeyValueWithString(t *testing.T) {
@@ -76,7 +46,7 @@ city = "Milan"`
 
 	tree := parse(t, input)
 
-	assert.Equal(t, tree.Sections[0].Name, "address")
+	qt.Assert(t, qt.Equals(tree.Sections[0].Name, "address"))
 	checkKeyString(t, tree.Sections[0].Properties[0], "city", "Milan")
 }
 
@@ -88,7 +58,7 @@ city = "Milan"`
 
 	prop := tree.Lookup("address/city")
 
-	assert.Assert(t, prop != nil)
+	qt.Assert(t, qt.IsNotNil(prop))
 	checkKeyString(t, prop, "city", "Milan")
 }
 
@@ -100,7 +70,7 @@ city = "Milan"`
 
 	prop := tree.Lookup("address/town")
 
-	assert.Assert(t, prop == nil)
+	qt.Assert(t, qt.IsNil(prop))
 }
 
 func TestLookupSectionFound(t *testing.T) {
@@ -112,8 +82,8 @@ city = "Milan"`
 
 	sect := tree.LookupSection("address")
 
-	assert.Assert(t, sect != nil)
-	assert.Equal(t, sect.Name, "address")
+	qt.Assert(t, qt.IsNotNil(sect))
+	qt.Assert(t, qt.Equals(sect.Name, "address"))
 }
 
 func TestLookupSectionNotFound(t *testing.T) {
@@ -125,7 +95,7 @@ city = "Milan"`
 
 	sect := tree.LookupSection("hello")
 
-	assert.Assert(t, sect == nil)
+	qt.Assert(t, qt.IsNil(sect))
 }
 
 func TestParserKeepsPropertyCommentsAndBlanks(t *testing.T) {
@@ -184,9 +154,9 @@ city = "Venezia"`
 			tree := parse(t, input)
 
 			prop := tree.Lookup(tc.keyPath)
-			assert.Assert(t, prop != nil)
-			assert.DeepEqual(t, prop.Comments, tc.wantComments)
-			assert.DeepEqual(t, prop.BlankLines, tc.wantBlankLines)
+			qt.Assert(t, qt.IsNotNil(prop))
+			qt.Assert(t, qt.DeepEquals(prop.Comments, tc.wantComments))
+			qt.Assert(t, qt.DeepEquals(prop.BlankLines, tc.wantBlankLines))
 		})
 	}
 }
@@ -244,9 +214,9 @@ x = 1
 			tree := parse(t, input)
 
 			sect := tree.LookupSection(tc.secName)
-			assert.Assert(t, sect != nil)
-			assert.DeepEqual(t, sect.Comments, tc.wantComments)
-			assert.DeepEqual(t, sect.BlankLines, tc.wantBlankLines)
+			qt.Assert(t, qt.IsNotNil(sect))
+			qt.Assert(t, qt.DeepEquals(sect.Comments, tc.wantComments))
+			qt.Assert(t, qt.DeepEquals(sect.BlankLines, tc.wantBlankLines))
 		})
 	}
 }
@@ -347,13 +317,13 @@ b = 2`,
 
 			have := tree.String()
 
-			assert.Equal(t, have, tc.input)
+			qt.Assert(t, qt.Equals(have, tc.input))
 		})
 	}
 }
 
-// Document the current behavior; this might change because I am not sure what is
-// the best to do :-(
+// Document the current behavior; this might change because I am not sure what
+// is the best to do :-(
 // Maybe should have a flag like "NormalizeLeadingTrailing" ?
 func TestRoundTripCornerCases(t *testing.T) {
 	type testCase struct {
@@ -366,7 +336,7 @@ func TestRoundTripCornerCases(t *testing.T) {
 		tree := parse(t, tc.input)
 		have := tree.String()
 
-		assert.Equal(t, have, tc.want)
+		qt.Assert(t, qt.Equals(have, tc.want))
 	}
 
 	testCases := []testCase{
@@ -424,7 +394,8 @@ b = 2`,
 			tc.want = normalizeEnds(tc.want)
 
 			have := tree.String()
-			assert.Equal(t, have, tc.want)
+
+			qt.Assert(t, qt.Equals(have, tc.want))
 		})
 	}
 }
@@ -508,7 +479,7 @@ b = 2`,
 			tree.Add(tc.key, tc.value)
 			have := tree.String()
 
-			assert.Equal(t, have, tc.want)
+			qt.Assert(t, qt.Equals(have, tc.want))
 		})
 	}
 
@@ -616,7 +587,7 @@ a = 1`,
 			tree.Remove(tc.remove)
 			have := tree.String()
 
-			assert.Equal(t, have, tc.want)
+			qt.Assert(t, qt.Equals(have, tc.want))
 		})
 	}
 }
@@ -692,7 +663,7 @@ c = 3`,
 			tree.RemoveSection(tc.remove)
 			have := tree.String()
 
-			assert.Equal(t, have, tc.want)
+			qt.Assert(t, qt.Equals(have, tc.want))
 		})
 	}
 }
@@ -717,11 +688,11 @@ func TestAddCommentViaLookup(t *testing.T) {
 			tree.Add(tc.path, tc.value)
 			prop = tree.Lookup(tc.path)
 		}
-		assert.Assert(t, prop != nil)
+		qt.Assert(t, qt.IsNotNil(prop))
 		prop.Comments = tc.comments
 
 		have := tree.String()
-		assert.Equal(t, have, tc.want)
+		qt.Assert(t, qt.Equals(have, tc.want))
 	}
 
 	testCases := []testCase{
@@ -755,4 +726,38 @@ b = 2`,
 			test(t, tc)
 		})
 	}
+}
+
+//
+// Helpers.
+//
+
+// Parse input and return the AST.
+func parse(t *testing.T, input string) *ast.AST {
+	t.Helper()
+
+	parser := ast.NewParser()
+
+	tree, err := parser.ParseString("", input)
+	qt.Assert(t, qt.IsNil(err))
+
+	return tree
+}
+
+// Assert that 'prop' has key 'k' and value 'v', where 'v' is a string.
+func checkKeyString(t *testing.T, prop *ast.Property, k string, v string) {
+	t.Helper()
+	qt.Assert(t, qt.Equals(prop.Key, k))
+	value, ok := prop.Value.(ast.String)
+	qt.Assert(t, qt.IsTrue(ok))
+	qt.Assert(t, qt.Equals(value.S, v))
+}
+
+// Assert that 'prop' has key 'k' and value 'v', where 'v' is a float64.
+func checkKeyFloat(t *testing.T, prop *ast.Property, k string, v float64) {
+	t.Helper()
+	qt.Assert(t, qt.Equals(prop.Key, k))
+	value, ok := prop.Value.(ast.Number)
+	qt.Assert(t, qt.IsTrue(ok))
+	qt.Assert(t, qt.Equals(value.N, v))
 }

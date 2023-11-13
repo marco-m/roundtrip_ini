@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/marco-m/roundtripini/ast"
+	"github.com/marco-m/roundtrip_ini/ast"
 )
 
 func Example_add_properties() {

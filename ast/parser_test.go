@@ -11,7 +11,7 @@ import (
 
 	"gotest.tools/v3/assert"
 
-	"github.com/marco-m/roundtripini/ast"
+	"github.com/marco-m/roundtrip_ini/ast"
 )
 
 func TestGrammarIsWellFormed(t *testing.T) {

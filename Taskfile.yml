@@ -1,4 +1,4 @@
-# roundtripini/Taskfile (see https://taskfile.dev)
+# (see https://taskfile.dev)
 
 version: '3'
 
@@ -22,4 +22,3 @@ tasks:
     desc: "show code coverage in browser (usage: task test browser)"
     cmds:
       - go tool cover -html=cover.out
-

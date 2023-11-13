@@ -20,7 +20,7 @@ import (
 
 // NewParser returns a participle parser for parsing INI files.
 //
-// NewParse can panic, but only in case the roundtripini grammar definition
+// NewParse can panic, but only in case the roundtrip_ini grammar definition
 // is wrong. This means that the panic is 100% deterministic: if you have only
 // one test that calls NewParser successfully, then newParser will not panic
 // in production.

@@ -1,17 +1,17 @@
-# roundtripini
+# roundtrip_ini
 
-[![PkgGoDev](https://pkg.go.dev/github.com/marco-m/roundtripini)](https://pkg.go.dev/github.com/marco-m/roundtripini)
+[![PkgGoDev](https://pkg.go.dev/github.com/marco-m/roundtrip_ini)](https://pkg.go.dev/github.com/marco-m/roundtrip_ini)
 
 Decode, structural edit (replace, insert, delete) and encode the [INI file] format, preserving comments and blank lines.
 
 Humans care about comments and blank lines and are confused when comments disappear or lines change place for no reason.
 
-Module `roundtripini` is useful when you need to do round trip editing and
+Module `roundtrip_ini` is useful when you need to do round trip editing and
 
 * the diff is meant to be presented to a human for review.
 * the output is meant to be read or written again by a human.
 
-At the same time, `roundtripini` acts also as a formatter / pretty-printer, introducing uniformity. Like gofmt, the formatting is not tunable.
+At the same time, `roundtrip_ini` acts also as a formatter / pretty-printer, introducing uniformity. Like gofmt, the formatting is not tunable.
 
 ## Status
 
@@ -25,10 +25,10 @@ The [INI file] is an informal format and reaching conformity or completeness is 
 
 The idea is to have two packages:
 
-* Package `roundtripini` performs **high-level** decoding, editing and encoding of the INI format, preserving comments and blank lines.
+* Package `roundtrip_ini` performs **high-level** decoding, editing and encoding of the INI format, preserving comments and blank lines.
 * Package `ast` performs **low-level** decoding, editing and encoding of the INI format, preserving comments and blank lines.
 
-One would normally use package `roundtripini`, reserving package `ast` to special cases, but currently only package `ast` is implemented.
+One would normally use package `roundtrip_ini`, reserving package `ast` to special cases, but currently only package `ast` is implemented.
 
 * See the examples in ast/example_test.go.
 * See the tests.
@@ -68,7 +68,7 @@ Thanks to [participle], a parser and lexer generator.
 
 This code is released under the MIT license, see file [LICENSE](LICENSE).
 
-[godoc-ast]: https://pkg.go.dev/github.com/marco-m/roundtripini/ast
+[godoc-ast]: https://pkg.go.dev/github.com/marco-m/roundtrip_ini/ast
 [participle]: https://github.com/alecthomas/participle
 [INI file]: https://en.wikipedia.org/wiki/INI_file
 [talk, then code]: https://dave.cheney.net/2019/02/18/talk-then-code

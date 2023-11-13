@@ -592,6 +592,75 @@ a = 1`,
 	}
 }
 
+func TestAddSection(t *testing.T) {
+	type testcase struct {
+		name    string
+		ini     string
+		section string
+		comment string
+		want    string
+	}
+
+	test := func(t *testing.T, tc testcase) {
+		tree := parse(t, tc.ini)
+		tc.want = normalizeEnds(tc.want)
+
+		// This will be appended at the end of the tree
+		//tree.AddSection(tc.add, tc.comment)
+
+		qt.Assert(t, qt.Equals(tree.String(), tc.want))
+	}
+
+	testCases := []testcase{
+		{
+			name:    "empty tree, add without comment",
+			ini:     "",
+			section: "fruits",
+			comment: "",
+			want: `
+[fruits]
+`,
+		},
+		{
+			name:    "empty tree, add with comment",
+			ini:     "",
+			section: "fruits",
+			comment: "# juicy fruits",
+			want: `
+# juicy!
+[fruits]
+`,
+		},
+		{
+			name:    "simple tree",
+			ini:     "k = 7",
+			section: "fruits",
+			comment: "succulent!",
+			want: `
+k = 7
+
+# succulent!
+[fruits]
+`,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) { test(t, tc) })
+	}
+}
+
+func TestAddSectionAfter(t *testing.T) {
+	//tree := parse(t, "")
+	// This will be appended after section mushrooms
+	//tree.AddSectionAfter("fruits", "mushrooms")
+	t.Fatal("implement me")
+}
+
+func TestAddComment(t *testing.T) {
+	t.Fatal("implement me? This is tricky")
+}
+
 func TestRemoveSection(t *testing.T) {
 	testCases := []struct {
 		name   string

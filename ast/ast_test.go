@@ -476,7 +476,7 @@ b = 2`,
 			tree := parse(t, tc.input)
 			tc.want = normalizeEnds(tc.want)
 
-			tree.Add(tc.key, tc.value)
+			tree.AddProp(tc.key, tc.value)
 			have := tree.String()
 
 			qt.Assert(t, qt.Equals(have, tc.want))
@@ -684,8 +684,8 @@ func TestAddCommentViaLookup(t *testing.T) {
 
 		prop := tree.Lookup(tc.path)
 		if prop == nil {
-			// FIXME Add should return the prop ?
-			tree.Add(tc.path, tc.value)
+			// FIXME AddProp should return the prop ?
+			tree.AddProp(tc.path, tc.value)
 			prop = tree.Lookup(tc.path)
 		}
 		qt.Assert(t, qt.IsNotNil(prop))

@@ -8,11 +8,11 @@ import (
 	"strings"
 )
 
-// Lookup returns the [Property] associated with keyPath, where keyPath has the
-// format
-// "section/key". For example:
-//   - "foo"     will look for key "foo" in the global section
-//   - "bar/foo" will look for key "foo" in section "bar"
+// Lookup returns the editable [Property] associated with keyPath, where
+// keyPath has the format "section/key".
+// For example:
+//   - "foo"      will look for key "foo" in the global section
+//   - "bar/foo"  will look for key "foo" in section "bar"
 //
 // If keyPath doesn't exist, Lookup returns nil.
 func (tree *AST) Lookup(keyPath string) *Property {
@@ -37,7 +37,7 @@ func (tree *AST) Lookup(keyPath string) *Property {
 	return nil
 }
 
-// LookupSection returns the [Section] secName.
+// LookupSection returns the editable [Section] secName.
 // If the section doesn't exist, LookupSection returns nil.
 func (tree *AST) LookupSection(secName string) *Section {
 	if i := index(tree.Sections, secName); i != -1 {
@@ -79,25 +79,25 @@ func (tree *AST) RemoveSection(secName string) {
 	}
 }
 
-// Add replaces the value of keyPath with newVal, where keyPath has the format
+// AddProp replaces the value of keyPath with newVal, where keyPath has the format
 // "section/key".
 //
-// If keyPath does not exist, Add appends the key pair at the end of the
+// If keyPath does not exist, AddProp appends the key pair at the end of the
 // section. Note that the type of newVal can be different from the previous
 // type.
 //
-// Use [Lookup] beforehand if you need to ensure the presence of keyPath.
-func (tree *AST) Add(keyPath string, newVal Value) {
+// Use [Lookup] beforehand if you need to know if keyPath is already present.
+func (tree *AST) AddProp(keyPath string, newVal Value) {
 	section, key := path.Split(keyPath)
 	section = strings.TrimSuffix(section, "/")
 
-	// Add in the global section.
+	// Add property in the global section.
 	if section == "" {
 		add(&tree.Properties, key, newVal)
 		return
 	}
 
-	// Add in the named sections.
+	// Add property in the named sections.
 	for _, sect := range tree.Sections {
 		if sect.Name == section {
 			add(&sect.Properties, key, newVal)

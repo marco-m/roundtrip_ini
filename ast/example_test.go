@@ -39,13 +39,13 @@ b = 2`
 	}
 
 	// Add property to global section.
-	tree.Add("c", ast.String{Value: "x"})
+	tree.AddProp("c", ast.String{Value: "x"})
 
 	// Add property to existing named section.
-	tree.Add("s1/d", ast.Number{Value: 1})
+	tree.AddProp("s1/d", ast.Number{Value: 1})
 
 	// Add property to non-existing (yet) named section.
-	tree.Add("s2/e", ast.Number{Value: 7})
+	tree.AddProp("s2/e", ast.Number{Value: 7})
 
 	// Encode
 	fmt.Println(tree)

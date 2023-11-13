@@ -111,24 +111,24 @@ type Value interface{ value() }
 
 // String is one of the possible types for a Value.
 type String struct {
-	S string `parser:"@String"`
+	Value string `parser:"@String"`
 }
 
 func (s String) value() {} // sealed
 
 func (s String) String() string {
-	return fmt.Sprintf("%q", s.S)
+	return fmt.Sprintf("%q", s.Value)
 }
 
 // Number is one of the possible types for a Value.
 type Number struct {
-	N float64 `parser:"@Float"`
+	Value float64 `parser:"@Float"`
 }
 
 func (nu Number) value() {} // sealed
 
 func (nu Number) String() string {
-	return strconv.FormatFloat(nu.N, 'f', -1, 64)
+	return strconv.FormatFloat(nu.Value, 'f', -1, 64)
 }
 
 // Section is a INI file section, with optional metadata for encoding fidelity

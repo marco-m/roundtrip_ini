@@ -413,7 +413,7 @@ func TestAdd(t *testing.T) {
 			input: `foo = "bar"`,
 			want:  `foo = "zoo"`,
 			key:   "foo",
-			value: ast.String{S: "zoo"},
+			value: ast.String{Value: "zoo"},
 		},
 		{
 			name: "update property, named section",
@@ -426,7 +426,7 @@ hello = 2
 [fruits]
 foo = "zoo"`,
 			key:   "fruits/foo",
-			value: ast.String{S: "zoo"},
+			value: ast.String{Value: "zoo"},
 		},
 		{
 			name: "append property, global section",
@@ -440,7 +440,7 @@ new = "yes"
 [section1]
 k = "v"`,
 			key:   "new",
-			value: ast.String{S: "yes"},
+			value: ast.String{Value: "yes"},
 		},
 		{
 			name: "append property, named section",
@@ -454,7 +454,7 @@ g1 = 1
 s1 = 2
 new = "yes"`,
 			key:   "section1/new",
-			value: ast.String{S: "yes"},
+			value: ast.String{Value: "yes"},
 		},
 		{
 			name: "create new section and append key there",
@@ -467,7 +467,7 @@ a = 1
 [s2]
 b = 2`,
 			key:   "s2/b",
-			value: ast.Number{N: 2},
+			value: ast.Number{Value: 2},
 		},
 	}
 
@@ -716,7 +716,7 @@ a = 1
 # line 2
 b = 2`,
 			path:     "b",
-			value:    ast.Number{N: 2},
+			value:    ast.Number{Value: 2},
 			comments: []string{"# line 1", "# line 2"},
 		},
 	}
@@ -750,7 +750,7 @@ func checkKeyString(t *testing.T, prop *ast.Property, k string, v string) {
 	qt.Assert(t, qt.Equals(prop.Key, k))
 	value, ok := prop.Value.(ast.String)
 	qt.Assert(t, qt.IsTrue(ok))
-	qt.Assert(t, qt.Equals(value.S, v))
+	qt.Assert(t, qt.Equals(value.Value, v))
 }
 
 // Assert that 'prop' has key 'k' and value 'v', where 'v' is a float64.
@@ -759,5 +759,5 @@ func checkKeyFloat(t *testing.T, prop *ast.Property, k string, v float64) {
 	qt.Assert(t, qt.Equals(prop.Key, k))
 	value, ok := prop.Value.(ast.Number)
 	qt.Assert(t, qt.IsTrue(ok))
-	qt.Assert(t, qt.Equals(value.N, v))
+	qt.Assert(t, qt.Equals(value.Value, v))
 }
